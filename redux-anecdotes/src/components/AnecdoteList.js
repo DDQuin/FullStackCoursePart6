@@ -26,10 +26,11 @@ const AnecdoteList = () => {
     anecdotesFiltered = anecdotesSorted.filter(anecdote => anecdote.content.toLowerCase().includes(filter[0].toLowerCase()))
   }
 
-  const handleVote = (id, title) => {
-    dispatch(voteAnecdote(id))
+  const handleVote = (anecdote) => {
+    console.log(anecdote)
+    dispatch(voteAnecdote(anecdote.id, anecdote))
     dispatch(removeNotification())
-    dispatch(setNotification(`You have voted for ${title}`))
+    dispatch(setNotification(`You have voted for ${anecdote.content}`))
     setTimeout(() => dispatch(removeNotification()), 5000)
 
   }
@@ -37,7 +38,7 @@ const AnecdoteList = () => {
   return(
     <>
     {anecdotesFiltered.map(anecdote =>
-          <Anecdote key={anecdote.id} anecdote={anecdote} handleClick={() => handleVote(anecdote.id, anecdote.content)}/>
+          <Anecdote key={anecdote.id} anecdote={anecdote} handleClick={() => handleVote(anecdote)}/>
       )}
     </>
   )
