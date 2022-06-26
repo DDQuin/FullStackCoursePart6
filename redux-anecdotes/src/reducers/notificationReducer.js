@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = []
+let timeID = -1
 
 const notificationSlice = createSlice({
     name: 'notification',
@@ -14,17 +15,20 @@ const notificationSlice = createSlice({
       removeNotification(state, action) {
         state.pop()
       },
+
     },
   })
 
   export const setNotification = (message, seconds) => {
     return async dispatch => {
      dispatch(removeNotification())
-     dispatch(setNotificationFront(message))
-     setTimeout(() => {
+     clearTimeout(timeID)
+      timeID = setTimeout(() => {
       dispatch(removeNotification())
     }, seconds * 1000)
+    dispatch(setNotificationFront(message))
     }
+    
   }
   
   export const { setNotificationFront, removeNotification } = notificationSlice.actions
